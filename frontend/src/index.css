@@ -1,168 +1,229 @@
 /* =========================================
-   1. CONFIGURATION & THEMING
+   AgriBuddy 2.0 — VIT_Coders
+   Warm Earthy Theme — index.css
+   ========================================= */
+
+/* Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap');
+
+/* =========================================
+   1. DESIGN TOKENS
    ========================================= */
 :root {
-  --bg-dark: #020617;
-  --panel-bg: #1e293b;
-  --border-color: #334155;
-  --text-primary: #f8fafc;
-  --text-secondary: #94a3b8;
-  --emerald-400: #34d399;
-  --emerald-500: #10b981;
-  --blue-400: #60a5fa;
-  --orange-400: #fb923c;
-  --font-main: 'Inter', system-ui, -apple-system, sans-serif;
+  /* Core palette */
+  --soil-dark:   #1a4d2e;   /* Deep forest green — header, authority */
+  --leaf:        #2d6a4f;   /* Mid green — panel borders, focus rings */
+  --sapling:     #52b788;   /* Bright accent — success, active states */
+  --harvest:     #c17f3b;   /* Golden amber — CTA, highlights */
+  --harvest-lt:  #e9a856;   /* Light amber — hover */
+  --wheat:       #f5f0e8;   /* Warm cream — page background */
+  --husk:        #ede4d3;   /* Light beige — card backgrounds */
+  --husk-dark:   #ddd0b8;   /* Darker beige — borders, dividers */
+  --bark:        #3b2a1a;   /* Dark brown — primary text */
+  --bark-mid:    #6b4c2a;   /* Medium brown — secondary text */
+  --sky-green:   #eaf6ee;   /* Very light green — hover bg, pills */
+  --white:       #ffffff;
+
+  /* Semantic tokens */
+  --bg-page:     var(--wheat);
+  --bg-card:     var(--white);
+  --bg-card-alt: var(--husk);
+  --border:      var(--husk-dark);
+  --text-primary:   var(--bark);
+  --text-secondary: var(--bark-mid);
+  --text-label:  #5a4a35;
+  --accent:      var(--harvest);
+  --accent-hover:var(--harvest-lt);
+  --green-main:  var(--leaf);
+  --green-bright:var(--sapling);
+
+  /* Typography */
+  --font-main: 'Poppins', 'Nunito', system-ui, -apple-system, sans-serif;
+
+  /* Radii */
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+
+  /* Shadows */
+  --shadow-card: 0 2px 12px rgba(26, 77, 46, 0.10), 0 1px 3px rgba(0,0,0,0.07);
+  --shadow-card-hover: 0 6px 24px rgba(26, 77, 46, 0.16), 0 2px 8px rgba(0,0,0,0.10);
+  --shadow-btn: 0 4px 14px rgba(193, 127, 59, 0.35);
+  --shadow-btn-green: 0 4px 14px rgba(45, 106, 79, 0.35);
 }
 
 /* =========================================
-   2. GLOBAL RESET & LAYOUT
+   2. GLOBAL RESET & BASE
    ========================================= */
-* {
+*, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 html, body, #root {
   width: 100%;
   min-height: 100vh;
-  background-color: var(--bg-dark);
+  background-color: var(--bg-page);
   font-family: var(--font-main);
   color: var(--text-primary);
   overflow-x: hidden;
 }
 
-/* Center-Aligned Layout */
 #root {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  padding: 2rem;
-}
-
-/* Container for Header and Grid */
-.app-container {
-  width: 100%;
-  max-width: 1280px;
-  margin: 0 auto;
+  padding: 0;
 }
 
 /* =========================================
-   3. SCROLLBAR STYLING
+   3. SCROLLBAR
    ========================================= */
-::-webkit-scrollbar {
-  width: 6px;
-}
-
-::-webkit-scrollbar-track {
-  background: var(--bg-dark);
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--border-color);
-  border-radius: 10px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #475569;
-}
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--husk); }
+::-webkit-scrollbar-thumb { background: var(--husk-dark); border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: var(--bark-mid); }
 
 /* =========================================
-   4. CUSTOM RANGE SLIDERS
+   4. RANGE SLIDERS — thick, green-themed
    ========================================= */
 input[type='range'] {
   -webkit-appearance: none;
   width: 100%;
   background: transparent;
   cursor: pointer;
-  margin: 8px 0;
+  margin: 10px 0;
 }
 
 input[type='range']::-webkit-slider-runnable-track {
-  height: 6px;
-  background: var(--border-color);
+  height: 8px;
+  background: linear-gradient(to right, var(--sapling), var(--leaf));
   border-radius: 10px;
 }
 
 input[type='range']::-webkit-slider-thumb {
   -webkit-appearance: none;
-  height: 18px;
-  width: 18px;
-  background: #ffffff;
-  border: 2px solid var(--emerald-500);
+  height: 24px;
+  width: 24px;
+  background: var(--white);
+  border: 3px solid var(--leaf);
   border-radius: 50%;
-  margin-top: -6px; /* Center thumb */
-  box-shadow: 0 0 8px rgba(16, 185, 129, 0.4);
+  margin-top: -8px;
+  box-shadow: 0 2px 8px rgba(45, 106, 79, 0.3);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+input[type='range']::-webkit-slider-thumb:hover {
+  transform: scale(1.15);
+  box-shadow: 0 3px 12px rgba(45, 106, 79, 0.45);
+}
+
+input[type='range']::-moz-range-track {
+  height: 8px;
+  background: linear-gradient(to right, var(--sapling), var(--leaf));
+  border-radius: 10px;
+}
+
+input[type='range']::-moz-range-thumb {
+  height: 24px;
+  width: 24px;
+  background: var(--white);
+  border: 3px solid var(--leaf);
+  border-radius: 50%;
 }
 
 /* =========================================
-   5. LEAFLET MAP FIX
+   5. LEAFLET MAP
    ========================================= */
 .leaflet-container {
   width: 100% !important;
   height: 100% !important;
-  background: #0f172a !important;
-  border-radius: 16px;
+  background: var(--sky-green) !important;
+  border-radius: var(--radius-lg);
 }
 
 /* =========================================
-   6. UI COMPONENT STYLES (NO TAILWIND)
+   6. PANEL CARDS
    ========================================= */
-
-/* Main Panels */
 .panel {
-  background-color: var(--panel-bg);
-  border: 1px solid var(--border-color);
-  border-radius: 16px;
-  padding: 24px;
+  background-color: var(--bg-card);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 28px;
   display: flex;
   flex-direction: column;
   height: 100%;
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+  box-shadow: var(--shadow-card);
+  transition: box-shadow 0.25s ease;
+}
+
+.panel:hover {
+  box-shadow: var(--shadow-card-hover);
 }
 
 .panel-header {
-  color: var(--emerald-400);
-  font-size: 1.25rem;
-  font-weight: 700;
-  margin-bottom: 20px;
+  color: var(--soil-dark);
+  font-size: 1.2rem;
+  font-weight: 800;
+  margin-bottom: 22px;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
+  letter-spacing: -0.01em;
 }
 
-/* Forms & Inputs */
+/* =========================================
+   7. FORMS & INPUTS
+   ========================================= */
 .input-group {
-  margin-bottom: 16px;
+  margin-bottom: 18px;
 }
 
 .input-label {
   display: flex;
   justify-content: space-between;
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: var(--text-secondary);
+  align-items: center;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--text-label);
   text-transform: uppercase;
-  margin-bottom: 6px;
-  letter-spacing: 0.05em;
+  margin-bottom: 8px;
+  letter-spacing: 0.07em;
 }
 
 .input-field {
   width: 100%;
-  padding: 10px;
-  background-color: #0f172a;
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
-  color: white;
-  font-size: 0.875rem;
+  padding: 11px 14px;
+  background-color: var(--husk);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--bark);
+  font-size: 0.95rem;
+  font-family: var(--font-main);
+  font-weight: 500;
   outline: none;
-  transition: border-color 0.2s;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236b4c2a' stroke-width='2.5'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 36px;
 }
 
 .input-field:focus {
-  border-color: var(--emerald-500);
+  border-color: var(--leaf);
+  box-shadow: 0 0 0 3px rgba(45, 106, 79, 0.12);
+  background-color: var(--white);
+}
+
+.input-field option {
+  background: var(--white);
+  color: var(--bark);
 }
 
 .grid-2-col {
@@ -171,62 +232,72 @@ input[type='range']::-webkit-slider-thumb {
   gap: 12px;
 }
 
-/* Analysis Board - Gauge Container */
+/* =========================================
+   8. ANALYSIS BOARD — gauge
+   ========================================= */
 .gauge-container {
   position: relative;
-  height: 220px;
+  height: 230px;
   width: 100%;
   margin-bottom: 20px;
 }
 
 .gauge-text-overlay {
   position: absolute;
-  bottom: 20px; 
+  bottom: 24px;
   left: 0;
   right: 0;
   text-align: center;
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 
 .gauge-value {
-  font-size: 2.5rem;
+  font-size: 2.8rem;
   font-weight: 900;
-  color: white;
+  color: var(--soil-dark);
   line-height: 1;
 }
 
 .gauge-label {
-  font-size: 0.7rem;
+  font-size: 0.68rem;
   color: var(--text-secondary);
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 2px;
-  margin-top: 4px;
-}
-
-/* Analysis Board - Stats & Insights */
-.stat-card {
-  background-color: rgba(15, 23, 42, 0.6);
-  border: 1px solid var(--border-color);
-  border-radius: 12px;
-  padding: 16px;
-  margin-bottom: 12px;
-}
-
-.insight-box {
-  background-color: rgba(16, 185, 129, 0.1);
-  border: 1px solid rgba(16, 185, 129, 0.2);
-  border-radius: 8px;
-  padding: 12px;
-  font-size: 0.75rem;
-  color: #a7f3d0;
-  font-style: italic;
-  line-height: 1.5;
+  letter-spacing: 2.5px;
+  margin-top: 6px;
 }
 
 /* =========================================
-   7. UTILITIES
+   9. STAT CARDS & INSIGHT BOX
+   ========================================= */
+.stat-card {
+  background-color: var(--husk);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 16px 18px;
+  margin-bottom: 12px;
+  transition: box-shadow 0.2s;
+}
+
+.stat-card:hover {
+  box-shadow: var(--shadow-card);
+}
+
+.insight-box {
+  background: linear-gradient(135deg, var(--sky-green) 0%, #d4edda 100%);
+  border: 1.5px solid rgba(45, 106, 79, 0.25);
+  border-radius: var(--radius-sm);
+  padding: 14px 16px;
+  font-size: 0.8rem;
+  color: var(--soil-dark);
+  font-style: italic;
+  line-height: 1.65;
+}
+
+/* =========================================
+   10. UTILITIES
    ========================================= */
 .font-mono {
   font-family: 'ui-monospace', 'SFMono-Regular', Menlo, monospace;
@@ -234,47 +305,426 @@ input[type='range']::-webkit-slider-thumb {
 
 @keyframes pulse {
   0%, 100% { opacity: 1; }
-  50% { opacity: .5; }
+  50% { opacity: 0.5; }
 }
 
-.animate-pulse {
-  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+.animate-pulse { animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-pulse { animation: none; }
+  * { transition-duration: 0.01ms !important; }
 }
+
 /* =========================================
-   8. MAIN DASHBOARD LAYOUT
+   11. MAIN DASHBOARD LAYOUT
    ========================================= */
+.app-wrapper {
+  width: 100%;
+  background-color: var(--bg-page);
+  min-height: 100vh;
+}
 
+/* Field-stripe header — the signature element */
 .app-header {
+  width: 100%;
+  background: linear-gradient(135deg, var(--soil-dark) 0%, #1f5c36 60%, #2d6a4f 100%);
+  padding: 0;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(26, 77, 46, 0.3);
+}
+
+/* Furrow stripes — abstract field texture */
+.app-header::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    100deg,
+    transparent 0px,
+    transparent 28px,
+    rgba(255,255,255,0.03) 28px,
+    rgba(255,255,255,0.03) 30px
+  );
+  pointer-events: none;
+}
+
+.app-header::after {
+  content: '';
+  position: absolute;
+  right: -60px;
+  top: -60px;
+  width: 280px;
+  height: 280px;
+  background: radial-gradient(circle, rgba(193,127,59,0.18) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.header-inner {
+  position: relative;
+  z-index: 2;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 22px 32px 20px;
   display: flex;
   justify-content: space-between;
-  align-items: flex-end; /* Keeps the text aligned nicely at the bottom */
-  width: 100%;
-  border-bottom: 1px solid var(--border-color);
-  padding-bottom: 16px;
-  margin-bottom: 24px;
+  align-items: center;
+}
+
+.header-brand {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.header-logo-wrap {
+  width: 56px;
+  height: 56px;
+  background: rgba(255,255,255,0.12);
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  border: 1px solid rgba(255,255,255,0.15);
+  backdrop-filter: blur(4px);
+}
+
+.header-title {
+  font-size: 2rem;
+  font-weight: 900;
+  color: #ffffff;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  margin-bottom: 3px;
+}
+
+.header-title span {
+  color: var(--harvest-lt);
+}
+
+.header-tagline {
+  font-size: 0.82rem;
+  color: rgba(255,255,255,0.7);
+  font-weight: 500;
+  letter-spacing: 0.04em;
+}
+
+.header-meta {
+  text-align: right;
+}
+
+.header-status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: rgba(82, 183, 136, 0.2);
+  border: 1px solid rgba(82, 183, 136, 0.4);
+  border-radius: 999px;
+  padding: 5px 14px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #7fffc4;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.header-status-dot {
+  width: 7px;
+  height: 7px;
+  background: #52b788;
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+
+.header-team {
+  font-size: 0.72rem;
+  color: rgba(255,255,255,0.5);
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+/* =========================================
+   12. DASHBOARD GRID
+   ========================================= */
+.dashboard-body {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 28px 28px 40px;
 }
 
 .dashboard-grid {
   display: grid;
-  /* This creates exactly 3 equal columns */
-  grid-template-columns: repeat(3, 1fr); 
+  grid-template-columns: repeat(3, 1fr);
   gap: 24px;
   width: 100%;
-  align-items: stretch; /* Ensures all panels stretch to the same height */
+  align-items: stretch;
 }
 
-/* Responsive: Stacks them vertically on smaller screens (tablets/phones) */
-@media (max-width: 1024px) {
+.map-wrapper {
+  height: 620px;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  border: 2px solid rgba(45, 106, 79, 0.3);
+  box-shadow: var(--shadow-card), 0 0 0 4px rgba(45, 106, 79, 0.07);
+  position: relative;
+  transition: box-shadow 0.25s;
+}
+
+.map-wrapper:hover {
+  box-shadow: var(--shadow-card-hover), 0 0 0 4px rgba(45, 106, 79, 0.12);
+}
+
+/* Map tooltip instruction */
+.map-tooltip {
+  position: absolute;
+  top: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  background: rgba(26, 77, 46, 0.9);
+  color: white;
+  font-size: 0.75rem;
+  font-weight: 600;
+  font-family: var(--font-main);
+  padding: 7px 16px;
+  border-radius: 999px;
+  white-space: nowrap;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  pointer-events: none;
+  letter-spacing: 0.02em;
+}
+
+/* =========================================
+   13. SECTION GROUPS (InputPanel)
+   ========================================= */
+.input-section {
+  background: var(--husk);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 16px 18px;
+  margin-bottom: 16px;
+}
+
+.input-section-title {
+  font-size: 0.7rem;
+  font-weight: 800;
+  color: var(--leaf);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Location pill */
+.location-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--sky-green);
+  border: 1.5px solid rgba(45, 106, 79, 0.3);
+  border-radius: 999px;
+  padding: 8px 16px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--soil-dark);
+}
+
+/* =========================================
+   14. BUTTONS
+   ========================================= */
+.btn-primary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  width: 100%;
+  padding: 14px 20px;
+  background: linear-gradient(135deg, var(--harvest) 0%, #d4893f 100%);
+  border: none;
+  border-radius: var(--radius-md);
+  color: white;
+  font-family: var(--font-main);
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: var(--shadow-btn);
+  transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.15s;
+  letter-spacing: 0.01em;
+  min-height: 52px;
+}
+
+.btn-primary:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(193, 127, 59, 0.45);
+}
+
+.btn-primary:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.btn-primary:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.btn-primary:focus-visible {
+  outline: 3px solid var(--harvest);
+  outline-offset: 3px;
+}
+
+/* =========================================
+   15. CONFIDENCE BADGE
+   ========================================= */
+.confidence-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 999px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.confidence-badge.high {
+  background: rgba(82, 183, 136, 0.15);
+  color: var(--soil-dark);
+  border: 1px solid rgba(82, 183, 136, 0.35);
+}
+
+/* =========================================
+   16. TOAST NOTIFICATION
+   ========================================= */
+@keyframes slideUp {
+  from { transform: translateY(80px); opacity: 0; }
+  to   { transform: translateY(0);   opacity: 1; }
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
+
+.toast {
+  position: fixed;
+  bottom: 100px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--soil-dark);
+  color: white;
+  font-family: var(--font-main);
+  font-size: 0.88rem;
+  font-weight: 600;
+  padding: 12px 24px;
+  border-radius: 999px;
+  box-shadow: 0 6px 24px rgba(26,77,46,0.35);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  animation: slideUp 0.35s ease forwards;
+  white-space: nowrap;
+}
+
+.toast.hide {
+  animation: fadeOut 0.4s ease forwards;
+}
+
+/* =========================================
+   17. RADIO BUTTONS
+   ========================================= */
+.radio-group {
+  display: flex;
+  gap: 10px;
+  margin-top: 8px;
+  flex-wrap: wrap;
+}
+
+.radio-pill {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 16px;
+  border-radius: 999px;
+  border: 1.5px solid var(--border);
+  background: var(--white);
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  transition: all 0.18s ease;
+}
+
+.radio-pill input[type='radio'] {
+  accent-color: var(--leaf);
+  width: 15px;
+  height: 15px;
+}
+
+.radio-pill:has(input:checked) {
+  border-color: var(--leaf);
+  background: var(--sky-green);
+  color: var(--soil-dark);
+  font-weight: 600;
+}
+
+/* =========================================
+   18. RESPONSIVE
+   ========================================= */
+@media (max-width: 1180px) {
   .dashboard-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
+  }
+  .map-wrapper {
+    grid-column: span 2;
+    height: 380px;
   }
 }
 
-/* Map specific wrapper so it matches the panel heights */
-.map-wrapper {
-  height: 600px;
-  border-radius: 16px;
-  overflow: hidden;
-  border: 1px solid var(--border-color);
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+@media (max-width: 720px) {
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+  .map-wrapper {
+    grid-column: span 1;
+    height: 320px;
+  }
+  .header-inner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 18px 20px;
+  }
+  .header-meta {
+    text-align: left;
+  }
+  .dashboard-body {
+    padding: 18px 16px 32px;
+  }
+}
+
+@media (max-width: 480px) {
+  .panel { padding: 18px 16px; }
+  .header-title { font-size: 1.5rem; }
+  .grid-2-col { grid-template-columns: 1fr; }
+}
+
+/* =========================================
+   19. FOCUS / ACCESSIBILITY
+   ========================================= */
+:focus-visible {
+  outline: 3px solid var(--leaf);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Touch targets */
+button, select, input[type='range'], .radio-pill {
+  min-height: 44px;
 }
