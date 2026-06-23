@@ -16,4 +16,4 @@ xhtml2pdf==0.2.17
 matplotlib==3.8.2
 plotly==5.15.0
 tqdm==4.66.1
-seaborn==0.12.3
+seaborn==0.12.2
