@@ -13,3 +13,7 @@ pandas==2.2.3
 fpdf2==2.8.7
 weasyprint==69.0
 xhtml2pdf==0.2.17
+matplotlib==3.8.2
+plotly==5.15.0
+tqdm==4.66.1
+seaborn==0.12.3
