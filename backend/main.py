@@ -7,6 +7,7 @@ import numpy as np
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 from scipy.spatial import cKDTree
 from dotenv import load_dotenv
@@ -39,6 +40,14 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Serve frontend static files (built)
+app.mount("/assets", StaticFiles(directory="static/assets"), name="assets")
+
+@app.get("/")
+async def serve_frontend():
+    # Serve the index.html from the static folder
+    return FileResponse('static/index.html')
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 MODEL_DIR = os.path.join(BASE_DIR, "models")
