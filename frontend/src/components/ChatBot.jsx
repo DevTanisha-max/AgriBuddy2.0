@@ -42,7 +42,7 @@ const ChatBot = ({ farmData, prediction }) => {
         soil_ph: farmData.soil_ph,
         rainfall: farmData.annual_rainfall,
       };
-      const res = await axios.post('http://localhost:8000/chat', {
+      const res = await axios.post('/chat', {
         message: messageText,
         context,
       });

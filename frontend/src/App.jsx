@@ -109,7 +109,7 @@ function App() {
     setLoadingReport(true);
     try {
       const response = await axios.post(
-        'http://localhost:8000/generate-report',
+        '/generate-report',
         {
           crop: farmData.crop,
           season: farmData.season,
