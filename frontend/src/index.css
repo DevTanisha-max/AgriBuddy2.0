@@ -64,10 +64,17 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-html, #root {
+html {
   width: 100%;
   min-height: 100vh;
-  background-color: var(--bg-page);
+  font-family: var(--font-main);
+  color: var(--text-primary);
+  overflow-x: hidden;
+}
+
+#root {
+  width: 100%;
+  min-height: 100vh;
   font-family: var(--font-main);
   color: var(--text-primary);
   overflow-x: hidden;
@@ -330,7 +337,6 @@ input[type='range']::-moz-range-thumb {
    ========================================= */
 .app-wrapper {
   width: 100%;
-  background-color: var(--bg-page);
   min-height: 100vh;
 }
 
