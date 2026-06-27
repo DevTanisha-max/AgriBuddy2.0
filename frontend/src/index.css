@@ -64,13 +64,23 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-html, body, #root {
+html, #root {
   width: 100%;
   min-height: 100vh;
   background-color: var(--bg-page);
   font-family: var(--font-main);
   color: var(--text-primary);
   overflow-x: hidden;
+}
+
+body {
+  background-image: url('/img2.png');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  /* fallback color in case image doesn't load */
+  background-color: var(--bg-page);
 }
 
 #root {
