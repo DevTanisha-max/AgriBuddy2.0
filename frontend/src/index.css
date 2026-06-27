@@ -74,7 +74,7 @@ html, #root {
 }
 
 body {
-  background-image: url('/img2.png');
+  background-image: url('/img2.png?v=2');
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
