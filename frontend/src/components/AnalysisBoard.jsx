@@ -98,7 +98,7 @@ const AnalysisBoard = ({ prediction, loading, farmData }) => {
       {/* MARKET VALUE */}
       <div className="stat-card">
         <div className="input-label" style={{ marginBottom: '4px' }}>
-          <span>💰 Estimated Market Value</span>
+          <span>Estimated Market Value</span>
           <span style={{
             fontSize: '0.65rem',
             background: 'var(--sky-green)',
@@ -133,7 +133,7 @@ const AnalysisBoard = ({ prediction, loading, farmData }) => {
         </div>
         <div className="stat-card" style={{ margin: 0, textAlign: 'center' }}>
           <div className="input-label" style={{ justifyContent: 'center', fontSize: '0.68rem' }}>
-            🧪 Soil pH
+            Soil pH
           </div>
           <div style={{ color: 'var(--harvest)', fontWeight: 800, fontSize: '1rem' }}>
             {Number(farmData.soil_ph).toFixed(1)}
@@ -147,7 +147,7 @@ const AnalysisBoard = ({ prediction, loading, farmData }) => {
       {/* SEASONAL INDICATOR */}
       <div className="stat-card" style={{ marginBottom: '12px' }}>
         <div className="input-label" style={{ marginBottom: '8px' }}>
-          <span>📅 Seasonal Comparison</span>
+          <span>Seasonal Comparison</span>
         </div>
         <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
           {[
@@ -179,7 +179,7 @@ const AnalysisBoard = ({ prediction, loading, farmData }) => {
 
       {/* ADVISORY */}
       <div className="insight-box" aria-live="polite">
-        <strong>🌱 Agronomic Advisory:</strong> Current simulation for{' '}
+        <strong>Agronomic Advisory:</strong> Current simulation for{' '}
         <strong>{farmData.crop}</strong> in{' '}
         <strong>{farmData.district || 'the selected district'}</strong> indicates stable
         parameters. Optimal fertilizer range is 100–200 kg/ha for this crop type.
