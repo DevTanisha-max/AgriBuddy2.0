@@ -69,7 +69,6 @@ body::before {
   grid-template-rows: auto 1fr;
   position: relative;
   z-index: 1;
-  /* 🔥 CRITICAL: Isolate stacking context */
   isolation: isolate;
 }
 
@@ -84,7 +83,6 @@ body::before {
   -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid rgba(82, 183, 136, 0.3);
   padding: 16px 28px;
-  /* 🔥 CRITICAL: Very high z-index + position */
   position: relative;
   z-index: 9999;
   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
