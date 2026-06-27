@@ -217,12 +217,14 @@ body::before {
   flex-direction: column;
   gap: 14px;
   overflow: hidden;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
 }
 
+
 .panel:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2), 0 4px 12px rgba(0, 0, 0, 0.1);
+  transform: translateY(-4px) scale(1.01);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.2), 0 4px 16px rgba(0, 0, 0, 0.1);
+  border-color: rgba(82, 183, 136, 0.4);
 }
 
 .panel-header {
@@ -246,6 +248,13 @@ body::before {
   border-radius: 14px;
   padding: 16px;
   margin-bottom: 14px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.input-section:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  background: rgba(245, 240, 232, 0.8);
 }
 
 .input-section-title {
@@ -354,14 +363,14 @@ input[type="range"]::-webkit-slider-thumb:hover {
   border-radius: 14px;
   padding: 16px;
   margin-bottom: 12px;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
 }
 
 .stat-card:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  background: rgba(245, 240, 232, 0.85);
 }
-
 /* ============================================
    GAUGE
    ============================================ */
