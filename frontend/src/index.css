@@ -1,8 +1,7 @@
 /* ============================================
-   AGRI BUDDY 2.0 — Global Styles with Background
+   AGRI BUDDY 2.0 — Global Styles 
    ============================================ */
 
-/* CSS Variables */
 :root {
   --soil-dark: #1a4d2e;
   --leaf: #2d6a4f;
@@ -18,7 +17,6 @@
   --font-main: 'Poppins', 'Segoe UI', sans-serif;
 }
 
-/* Reset & Base */
 * {
   margin: 0;
   padding: 0;
@@ -32,18 +30,15 @@ html, body, #root {
 }
 
 /* ============================================
-   BACKGROUND IMAGE SETUP
+   BACKGROUND IMAGE
    ============================================ */
 
 body {
-  /* Background image */
-  background-image: url('frontend\\public\\img2.png');
+  background-image: url('/img2.jpg');
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
   background-repeat: no-repeat;
-  
-  /* Dark overlay for readability */
   position: relative;
 }
 
@@ -65,35 +60,30 @@ body::before {
 }
 
 /* ============================================
-   APP WRAPPER
+   APP WRAPPER — GRID LAYOUT (FIXES OVERLAP)
    ============================================ */
 
 .app-wrapper {
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-rows: auto 1fr;
   position: relative;
   z-index: 1;
-  /* Ensure content starts below header */
-  padding-top: 0;
 }
 
 /* ============================================
-   HEADER
+   HEADER — Stays in its own row
    ============================================ */
 
 .app-header {
+  grid-row: 1;
   background: linear-gradient(135deg, rgba(26, 77, 46, 0.92) 0%, rgba(45, 106, 79, 0.88) 100%);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid rgba(82, 183, 136, 0.3);
   padding: 16px 28px;
-  position: relative; /* Changed from sticky to relative */
-  top: auto;
   z-index: 100;
   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
-  /* Ensure it takes its own space in flow */
-  flex-shrink: 0;
   width: 100%;
 }
 
@@ -186,32 +176,28 @@ body::before {
 }
 
 /* ============================================
-   DASHBOARD BODY
+   DASHBOARD BODY — Own row, no overlap
    ============================================ */
 
 .dashboard-body {
-  flex: 1;
+  grid-row: 2;
   padding: 24px;
   max-width: 1400px;
   margin: 0 auto;
   width: 100%;
-  /* Ensure it doesn't overlap header */
-  position: relative;
-  z-index: 1;
+  overflow-y: auto;
 }
-
 
 .dashboard-grid {
   display: grid;
   grid-template-columns: 1.2fr 1fr 1fr;
   gap: 20px;
-  /* Remove fixed height that might cause overflow issues */
   min-height: calc(100vh - 120px);
   height: auto;
 }
 
 /* ============================================
-   PANELS (Cards) — Glassmorphism Effect
+   PANELS (Cards)
    ============================================ */
 
 .panel {
@@ -264,9 +250,6 @@ body::before {
   letter-spacing: 0.08em;
   color: var(--leaf);
   margin-bottom: 12px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
 }
 
 .input-label {
@@ -301,7 +284,6 @@ body::before {
   box-shadow: 0 0 0 3px rgba(45, 106, 79, 0.15);
 }
 
-/* Range slider */
 input[type="range"] {
   width: 100%;
   height: 6px;
@@ -518,12 +500,9 @@ input[type="range"]::-webkit-slider-thumb:hover {
   overflow: hidden;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
   border: 1.5px solid rgba(255, 255, 255, 0.3);
-  transition: transform 0.3s ease;
-  /* Ensure it doesn't overflow its container */
   height: 100%;
   min-height: 500px;
 }
-
 
 .map-tooltip {
   position: absolute;
