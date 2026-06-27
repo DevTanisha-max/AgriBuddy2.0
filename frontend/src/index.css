@@ -37,7 +37,7 @@ html, body, #root {
 
 body {
   /* Background image */
-  background-image: url('/img2.jpg');
+  background-image: url('frontend\\public\\img2.png');
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
