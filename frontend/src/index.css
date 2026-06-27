@@ -60,7 +60,7 @@ body::before {
 }
 
 /* ============================================
-   APP WRAPPER — GRID LAYOUT (FIXES OVERLAP)
+   APP WRAPPER — Grid Layout with Isolation
    ============================================ */
 
 .app-wrapper {
@@ -69,10 +69,12 @@ body::before {
   grid-template-rows: auto 1fr;
   position: relative;
   z-index: 1;
+  /* 🔥 CRITICAL: Isolate stacking context */
+  isolation: isolate;
 }
 
 /* ============================================
-   HEADER — Stays in its own row
+   HEADER — Highest z-index, never overlapped
    ============================================ */
 
 .app-header {
@@ -82,7 +84,9 @@ body::before {
   -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid rgba(82, 183, 136, 0.3);
   padding: 16px 28px;
-  z-index: 100;
+  /* 🔥 CRITICAL: Very high z-index + position */
+  position: relative;
+  z-index: 9999;
   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
   width: 100%;
 }
@@ -176,7 +180,7 @@ body::before {
 }
 
 /* ============================================
-   DASHBOARD BODY — Own row, no overlap
+   DASHBOARD BODY — Contained, no overflow
    ============================================ */
 
 .dashboard-body {
@@ -186,6 +190,9 @@ body::before {
   margin: 0 auto;
   width: 100%;
   overflow-y: auto;
+  /* 🔥 CRITICAL: Lower z-index than header */
+  position: relative;
+  z-index: 1;
 }
 
 .dashboard-grid {
@@ -491,7 +498,7 @@ input[type="range"]::-webkit-slider-thumb:hover {
 }
 
 /* ============================================
-   MAP
+   MAP — CRITICAL FIXES FOR OVERLAP
    ============================================ */
 
 .map-wrapper {
@@ -502,7 +509,41 @@ input[type="range"]::-webkit-slider-thumb:hover {
   border: 1.5px solid rgba(255, 255, 255, 0.3);
   height: 100%;
   min-height: 500px;
+  /* 🔥 CRITICAL: Contain the map */
+  z-index: 1;
+  isolation: isolate;
 }
+
+/* 🔥 CRITICAL: Override Leaflet's default z-index */
+.leaflet-container {
+  border-radius: 20px;
+  font-family: var(--font-main);
+  height: 100% !important;
+  width: 100% !important;
+  /* Force map to stay within its container */
+  z-index: 1 !important;
+}
+
+/* Override Leaflet control z-index */
+.leaflet-control-container {
+  z-index: 2 !important;
+}
+
+.leaflet-control-zoom a {
+  background: rgba(255, 255, 255, 0.9) !important;
+  backdrop-filter: blur(8px);
+  border-radius: 8px !important;
+  color: var(--soil-dark) !important;
+  font-weight: 700;
+}
+
+.leaflet-control-zoom a:hover {
+  background: #ffffff !important;
+}
+
+/* ============================================
+   MAP TOOLTIP
+   ============================================ */
 
 .map-tooltip {
   position: absolute;
@@ -624,27 +665,4 @@ input[type="range"]::-webkit-slider-thumb:hover {
   .panel {
     padding: 16px;
   }
-}
-
-/* ============================================
-   LEAFLET OVERRIDES
-   ============================================ */
-
-.leaflet-container {
-  border-radius: 20px;
-  font-family: var(--font-main);
-  height: 100% !important;
-  width: 100% !important;
-}
-
-.leaflet-control-zoom a {
-  background: rgba(255, 255, 255, 0.9) !important;
-  backdrop-filter: blur(8px);
-  border-radius: 8px !important;
-  color: var(--soil-dark) !important;
-  font-weight: 700;
-}
-
-.leaflet-control-zoom a:hover {
-  background: #ffffff !important;
 }
