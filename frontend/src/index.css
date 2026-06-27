@@ -74,6 +74,8 @@ body::before {
   flex-direction: column;
   position: relative;
   z-index: 1;
+  /* Ensure content starts below header */
+  padding-top: 0;
 }
 
 /* ============================================
@@ -86,10 +88,13 @@ body::before {
   -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid rgba(82, 183, 136, 0.3);
   padding: 16px 28px;
-  position: sticky;
-  top: 0;
+  position: relative; /* Changed from sticky to relative */
+  top: auto;
   z-index: 100;
   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
+  /* Ensure it takes its own space in flow */
+  flex-shrink: 0;
+  width: 100%;
 }
 
 .header-inner {
@@ -190,14 +195,19 @@ body::before {
   max-width: 1400px;
   margin: 0 auto;
   width: 100%;
+  /* Ensure it doesn't overlap header */
+  position: relative;
+  z-index: 1;
 }
+
 
 .dashboard-grid {
   display: grid;
   grid-template-columns: 1.2fr 1fr 1fr;
   gap: 20px;
-  height: calc(100vh - 120px);
-  min-height: 600px;
+  /* Remove fixed height that might cause overflow issues */
+  min-height: calc(100vh - 120px);
+  height: auto;
 }
 
 /* ============================================
@@ -508,7 +518,12 @@ input[type="range"]::-webkit-slider-thumb:hover {
   overflow: hidden;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
   border: 1.5px solid rgba(255, 255, 255, 0.3);
+  transition: transform 0.3s ease;
+  /* Ensure it doesn't overflow its container */
+  height: 100%;
+  min-height: 500px;
 }
+
 
 .map-tooltip {
   position: absolute;
@@ -639,6 +654,8 @@ input[type="range"]::-webkit-slider-thumb:hover {
 .leaflet-container {
   border-radius: 20px;
   font-family: var(--font-main);
+  height: 100% !important;
+  width: 100% !important;
 }
 
 .leaflet-control-zoom a {
