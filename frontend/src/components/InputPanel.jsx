@@ -33,10 +33,9 @@ const InputPanel = ({ farmData, setFarmData, onGenerateReport, loadingReport }) 
         {/* ── LOCATION ── */}
         <div className="input-section" style={{ marginBottom: 0 }}>
           <div className="input-section-title">
-            <span aria-hidden="true">📍</span> Farm Location
+            Farm Location
           </div>
           <div className="location-pill" aria-live="polite">
-            <span aria-hidden="true">🗺️</span>
             <span>{farmData.district || '—'}, {farmData.state || '—'}</span>
           </div>
           <div style={{ fontSize: '0.72rem', color: 'var(--text-secondary)', marginTop: '8px', fontStyle: 'italic' }}>
@@ -47,7 +46,7 @@ const InputPanel = ({ farmData, setFarmData, onGenerateReport, loadingReport }) 
         {/* ── CROP & SEASON ── */}
         <div className="input-section" style={{ marginBottom: 0 }}>
           <div className="input-section-title">
-            <span aria-hidden="true">🌾</span> Crop &amp; Season
+            Crop &amp; Season
           </div>
           <div className="grid-2-col">
             <div>
@@ -132,9 +131,9 @@ const InputPanel = ({ farmData, setFarmData, onGenerateReport, loadingReport }) 
                 className="input-field"
                 aria-label="Select farming season"
               >
-                <option value="Kharif">🌧️ Kharif</option>
-                <option value="Rabi">❄️ Rabi</option>
-                <option value="Summer">☀️ Whole Year</option>
+                <option value="Kharif">Kharif</option>
+                <option value="Rabi">Rabi</option>
+                <option value="Summer">Whole Year</option>
               </select>
             </div>
           </div>
@@ -143,13 +142,13 @@ const InputPanel = ({ farmData, setFarmData, onGenerateReport, loadingReport }) 
         {/* ── INPUT INTENSITY ── */}
         <div className="input-section" style={{ marginBottom: 0 }}>
           <div className="input-section-title">
-            <span aria-hidden="true">🧪</span> Input Intensity
+            Input Intensity
           </div>
 
           {/* Fertilizer */}
           <div className="input-group" style={{ marginBottom: '18px' }}>
             <div className="input-label">
-              <span>🌿 Fertilizer (kg/hectare)</span>
+              <span>Fertilizer (kg/hectare)</span>
               <span style={{
                 color: 'var(--leaf)',
                 fontFamily: 'monospace',
@@ -179,7 +178,7 @@ const InputPanel = ({ farmData, setFarmData, onGenerateReport, loadingReport }) 
           {/* Pesticide */}
           <div className="input-group" style={{ marginBottom: 0 }}>
             <div className="input-label">
-              <span>🛡️ Pesticide (kg/hectare)</span>
+              <span>Pesticide (kg/hectare)</span>
               <span style={{
                 color: 'var(--harvest)',
                 fontFamily: 'monospace',
@@ -211,7 +210,7 @@ const InputPanel = ({ farmData, setFarmData, onGenerateReport, loadingReport }) 
         {/* ── REPORT OPTIONS ── */}
         <div className="input-section" style={{ marginBottom: 0 }}>
           <div className="input-section-title">
-            <span aria-hidden="true">📄</span> Report Options
+            Report Options
           </div>
 
           <div className="input-group" style={{ marginBottom: '14px' }}>
@@ -269,11 +268,11 @@ const InputPanel = ({ farmData, setFarmData, onGenerateReport, loadingReport }) 
         >
           {loadingReport ? (
             <>
-              <span className="animate-pulse">⏳</span> Generating Report…
+              Generating Report…
             </>
           ) : (
             <>
-              <span>📥</span> Download Detailed Report
+              Download Detailed Report
             </>
           )}
         </button>
