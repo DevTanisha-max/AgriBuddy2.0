@@ -3,10 +3,10 @@ import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 
 const QUICK_REPLIES = [
-  { label: '🌾 What to plant?', text: 'What crops should I plant this season?' },
-  { label: '💧 Fertilizer advice', text: 'What is the recommended fertilizer dosage for my crop?' },
-  { label: '🌦️ Weather impact', text: 'How does rainfall affect my crop yield?' },
-  { label: '🐛 Pest control', text: 'How can I reduce pesticide use safely?' },
+  { label: 'What to plant?', text: 'What crops should I plant this season?' },
+  { label: 'Fertilizer advice', text: 'What is the recommended fertilizer dosage for my crop?' },
+  { label: 'Weather impact', text: 'How does rainfall affect my crop yield?' },
+  { label: 'Pest control', text: 'How can I reduce pesticide use safely?' },
 ];
 
 const ChatBot = ({ farmData, prediction }) => {
