@@ -261,20 +261,18 @@ const InputPanel = ({ farmData, setFarmData, onGenerateReport, loadingReport }) 
         {/* ── DOWNLOAD BUTTON ── */}
         <button
           onClick={onGenerateReport}
-          disabled={loadingReport}
-          className="btn-primary"
-          aria-label={loadingReport ? 'Generating report, please wait' : 'Download detailed crop report'}
-          aria-busy={loadingReport}
-        >
-          {loadingReport ? (
-            <>
-              Generating Report…
-            </>
-          ) : (
-            <>
-              Download Detailed Report
-            </>
-          )}
+  disabled={loadingReport}
+  className="btn-primary"
+  aria-label={loadingReport ? 'Generating report, please wait' : 'Download detailed crop report'}
+  aria-busy={loadingReport}
+>
+  {loadingReport ? (
+    <>
+      <span className="spinner" /> Generating Report…
+    </>
+  ) : (
+    <>Download Detailed Report</>
+  )}
         </button>
       </div>
     </div>
