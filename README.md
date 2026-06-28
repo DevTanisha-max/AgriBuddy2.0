@@ -106,9 +106,10 @@ AgriBuddy2.0/
 
 ### Prerequisites
 
-- [Python 3.10+](https://www.python.org/downloads/)
-- [Node.js 18+](https://nodejs.org/)
-- [Git](https://git-scm.com/downloads)
+[![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/downloads/)
+[![Node.js](https://img.shields.io/badge/Node.js-18%2B-339933?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org/)
+[![Git](https://img.shields.io/badge/Git-Download-F05032?style=for-the-badge&logo=git&logoColor=white)](https://git-scm.com/downloads)
+
 - pip (comes with Python)
 - npm (comes with Node.js)
 
