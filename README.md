@@ -106,11 +106,11 @@ AgriBuddy2.0/
 
 ### Prerequisites
 
-Python 3.9+ – Download here  
-Node.js 18+ – Download here  
-Git – Download here  
-pip (comes with Python)  
-npm (comes with Node.js)
+- [Python 3.10+](https://www.python.org/downloads/)
+- [Node.js 18+](https://nodejs.org/)
+- [Git](https://git-scm.com/downloads)
+- pip (comes with Python)
+- npm (comes with Node.js)
 
 ### Backend Setup
 
