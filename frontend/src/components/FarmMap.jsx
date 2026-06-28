@@ -77,11 +77,24 @@ const FarmMap = ({ onLocationFound }) => {
   const center = [30.97, 76.53];
 
   return (
-    <div style={{ height: '100%', width: '100%' }}>
+    <div style={{ 
+      height: '100%', 
+      width: '100%',
+      position: 'relative',
+      zIndex: 1,
+      isolation: 'isolate',
+      overflow: 'hidden',
+      borderRadius: '20px'
+    }}>
       <MapContainer
         center={center}
         zoom={7}
-        style={{ height: '100%', width: '100%' }}
+        style={{ 
+          height: '100%', 
+          width: '100%',
+          position: 'relative',
+          zIndex: 1
+        }}
         aria-label="Interactive farm location map. Click to select your farm."
       >
         <TileLayer
@@ -95,3 +108,5 @@ const FarmMap = ({ onLocationFound }) => {
 };
 
 export default FarmMap;
+
+
