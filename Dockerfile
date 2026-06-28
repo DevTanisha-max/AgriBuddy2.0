@@ -24,7 +24,7 @@ WORKDIR /app/frontend
 RUN npm install
 
 # ------------------------------
-# 3. Copy the entire source code
+# 3. Copy the rest of the source code (excluding node_modules, etc.)
 # ------------------------------
 WORKDIR /app
 COPY . .
@@ -35,19 +35,17 @@ COPY . .
 WORKDIR /app/frontend
 RUN npm run build
 
-# If your build output is 'build' instead of 'dist', change this line:
-RUN mv dist ../backend/static
+# ------------------------------
+# 5. Create the static directory and copy the built frontend there
+# ------------------------------
+RUN mkdir -p /app/backend/static
+RUN cp -r /app/frontend/dist/* /app/backend/static/
 
 # ------------------------------
-# 5. Set up the backend runtime
+# 6. Set up the backend runtime
 # ------------------------------
 WORKDIR /app/backend
 
-# Expose the port your FastAPI runs on (8000 by default)
 EXPOSE 8000
 
-# Install uvicorn if not already in requirements.txt (add if missing)
-# RUN pip install uvicorn
-
-# Start the server with uvicorn
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]

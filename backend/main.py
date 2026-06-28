@@ -41,13 +41,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Serve frontend static files (built)
-app.mount("/assets", StaticFiles(directory="static/assets"), name="assets")
-
-@app.get("/")
-async def serve_frontend():
-    # Serve the index.html from the static folder
-    return FileResponse('static/index.html')
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 MODEL_DIR = os.path.join(BASE_DIR, "models")
@@ -450,6 +443,9 @@ Now, respond to the farmer’s question **only if it is on‑topic**. Keep it wa
     except Exception as e:
         logger.error(f"Groq error: {e}")
         raise HTTPException(status_code=500, detail="Chatbot error")
+
+
+app.mount("/", StaticFiles(directory="static", html=True), name="static")
 
 if __name__ == "__main__":
     import uvicorn
