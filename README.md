@@ -1,9 +1,10 @@
-🌾 AgriBuddy - Geospatial Digital Twin for Precision Agriculture
+# 🌾 AgriBuddy - Geospatial Digital Twin for Precision Agriculture
 
 A geospatial digital twin platform that combines machine learning, real-time soil data, and interactive mapping to help farmers make data-driven decisions for crop yield prediction and sustainable farming.
 
-https://img.shields.io/badge/Live_Demo-View_App-00C7B7?style=for-the-badge&logo=render  
-https://img.shields.io/badge/GitHub-View_Code-181717?style=for-the-badge&logo=github
+[![Live Demo](https://img.shields.io/badge/Live_Demo-View_App-00C7B7?style=for-the-badge&logo=render)](https://agribuddy2-0.onrender.com/)
+[![GitHub Code](https://img.shields.io/badge/GitHub-View_Code-181717?style=for-the-badge&logo=github)](https://github.com/DevTanisha-max/AgriBuddy2.0)
+
 
 ## 📌 Overview
 
