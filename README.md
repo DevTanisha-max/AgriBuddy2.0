@@ -18,7 +18,7 @@ AgriBuddy is an intelligent agricultural analytics platform that empowers farmer
 |---|---|
 | 🗺️ Interactive Geospatial Map | Click on the map to auto-capture GPS coordinates and reverse-geocode district/state |
 | 🌱 Automated Soil Profile Lookup | Smart injection of N, P, K, pH values from internal district-level database |
-| 🤖 ML-Powered Yield Prediction | XGBoost Regressor trained on 10-feature vector (soil chemistry, weather, crop, season) |
+| 🤖 ML-Powered Yield Prediction | Random Forest (median) + Neural Networks (80% prediction interval) trained on 13‑feature vector (soil chemistry, rainfall, crop, season, state, farm inputs) |
 | 📊 Real-Time Dashboard | Visualize predicted yield, confidence metrics, and historical trends with Chart.js |
 | 📄 Multi-Language Report Generation | Generate detailed crop reports in Hindi, English, and other Indian languages |
 | 🤖 AI Chatbot Assistant | Groq-powered chatbot for farming advice, crop selection, and pest control |
@@ -37,7 +37,7 @@ AgriBuddy creates a digital twin of your farm by combining:
 | Farm Inputs | Fertilizer intensity, pesticide usage |
 | Geospatial Location | GPS coordinates from interactive map |
 
-1 prediction = 10 features → XGBoost → Yield forecast (kg/hectare)
+1 prediction = 10 features → ML → Yield forecast (kg/hectare)
 
 ## ⚙️ System Workflow
 
@@ -47,7 +47,7 @@ AgriBuddy creates a digital twin of your farm by combining:
 4. User selects → Crop, Season, Fertilizer, Pesticide  
 5. ML Model predicts → Yield forecast with confidence  
 6. Dashboard updates → Visual charts & insights  
-7. Generate Report → PDF download in preferred language  
+7. Generate Report → View Report in preferred language
 8. Chatbot assistance → AI-powered farming advice
 
 ## 🛠️ Tech Stack
@@ -55,14 +55,13 @@ AgriBuddy creates a digital twin of your farm by combining:
 | Category | Technology |
 |---|---|
 | Backend | Python, FastAPI, Uvicorn |
-| ML/MLOps | XGBoost, scikit-learn, pandas, numpy, joblib |
+| ML/MLOps | scikit-learn, PyTorch, pandas, numpy, joblib, scipy |
 | Frontend | React 19, Vite, Leaflet.js, Chart.js |
 | UI/Map | React-Leaflet, Axios |
-| PDF Generation | ReportLab, fpdf2 (with Devanagari font support) |
 | AI Chatbot | Groq API |
 | Containerization | Docker |
 | Orchestration | Kubernetes (HPA, rolling updates) |
-| Database | District-level soil chemistry lookup (CSV-based) |
+| Database | File-based storage (CSV for raw data, joblib/PyTorch serialized files for models, geo KDTree pickle) |
 
 ## 📁 Project Structure
 
@@ -118,7 +117,7 @@ npm (comes with Node.js)
 #### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/DevTanisha-max/AgriBuddy2.0.git
+git clone https://github.com/SparshKapoor-CODER/AgriBuddy2.0.git
 cd AgriBuddy2.0
 ```
 
@@ -147,6 +146,8 @@ pip install -r requirements.txt
 ```
 
 #### 4. Set Up Environment Variables
+
+Get your free `Groq API key` at [console.groq.com](https://console.groq.com)
 
 Create a `.env` file in the backend folder:
 
@@ -232,7 +233,6 @@ kubectl get services
 | /predict | POST | Predict crop yield using 10-feature vector |
 | /generate-report | POST | Generate multi-language PDF report |
 | /chat | POST | AI-powered farming chatbot (Groq) |
-| /health | GET | Health check endpoint |
 
 ## 🗺️ Frontend Features
 
@@ -245,7 +245,7 @@ kubectl get services
 ### Prediction Form (InputPanel)
 
 - 55+ Crop Varieties – Rice, Wheat, Maize, Cotton, Sugarcane, Banana, and more
-- Season Selection – Kharif, Rabi, Summer
+- Season Selection – Kharif, Rabi, Whole Year
 - Fertilizer & Pesticide sliders for input intensity
 - Auto-filled soil parameters
 
@@ -268,28 +268,103 @@ kubectl get services
 
 - Languages: Hindi, English, and other Indian languages
 - Scripts: Native Script (Devanagari) & Roman
-- PDF Download – Complete crop report with all parameters
+- View Report – Complete crop report with all parameters
 
-## 📊 Machine Learning Model
+## 📊 Machine Learning Models
 
-Algorithm: XGBoost Regressor
+| Component | Model | Framework | Target Transform |
+|-----------|-------|-----------|------------------|
+| **Median (point estimate)** | Random Forest Regressor | scikit‑learn | None (raw yield) |
+| **Lower quantile (τ = 0.1)** | Neural Network with pinball loss | PyTorch | `log1p(yield)` |
+| **Upper quantile (τ = 0.9)** | Neural Network with pinball loss | PyTorch | `log1p(yield)` |
 
-Input Features (10-vector):
+The system returns an **80% prediction interval** (10th–90th percentiles) alongside the median point estimate, providing both a best guess and a measure of uncertainty.
 
-- Nitrogen (N) – mg/kg
-- Phosphorus (P) – mg/kg
-- Potassium (K) – mg/kg
-- Soil pH – unitless
-- Rainfall – mm
-- Temperature – °C
-- Humidity – %
-- Crop (encoded)
-- Season (encoded)
-- State (encoded)
+---
 
-Output: Crop yield prediction (kg/hectare)
+### 📥 Input Features (13‑vector)
 
-Training Data: Historical agricultural records with validated soil and weather measurements across 55+ crop varieties
+| # | Feature | Description |
+|---|---------|-------------|
+| 1 | `Crop_target_enc` | Target‑encoded crop: `log(mean yield per crop)` – captures crop‑specific baseline productivity |
+| 2–6 | `Season_Kharif`, `Season_Rabi`, `Season_Summer`, `Season_Whole Year`, `Season_Winter` | One‑hot encoded season (5 dummies, first category dropped) |
+| 7 | `State` | Label‑encoded Indian state (from training set) |
+| 8 | `Annual_Rainfall` | Rainfall (mm/year) – retrieved from nearest GEE grid point via KDTree |
+| 9 | `Fertilizer_per_ha` | Fertilizer usage per hectare (`Fertilizer / Area`) |
+| 10 | `Pesticide_per_ha` | Pesticide usage per hectare (`Pesticide / Area`) |
+| 11 | `log_Area` | Log‑transformed cultivated area (`log1p(Area)`) |
+| 12 | `Nitrogen` | Soil nitrogen (mg/kg) – state‑level average |
+| 13 | `Soil Ph` | Soil pH – state‑level average from GEE |
+
+> **Dropped features:** Phosphorus and Potassium were removed because, after state‑level aggregation, they showed near‑constant variance and did not improve predictive performance. Temperature and humidity are not available in the dataset.
+
+---
+
+### 📤 Output
+
+- **Point estimate:** Median crop yield (tons/hectare) – from Random Forest
+- **Uncertainty interval:** 80% prediction interval (10th and 90th percentiles) – from quantile neural networks
+- **Example response:**
+  ```json
+  {
+    "median": 2.34,
+    "lower_bound": 0.87,
+    "upper_bound": 6.12,
+    "units": "tons/hectare"
+  }
+  ```
+
+---
+
+### 📚 Training Data
+
+- **Source:** Historical agricultural records from India (1997–2015)
+- **Crops:** 55+ crop varieties
+- **Geographic coverage:** All major Indian states
+- **Raw records:** 19,689 rows
+- **After cleaning:** 19,525 rows (outliers with `Yield > 1000` removed)
+- **Original columns:** Crop, Crop_Year, Season, State, Area, Production, Annual_Rainfall, Fertilizer, Pesticide
+- **Enrichment:** Soil nutrients (N, P, K, pH) merged at the state level from a district‑level soil lookup (averaged per state)
+- **Pre‑processing pipeline:**
+  1. Normalise fertilizer and pesticide by area → `Fertilizer_per_ha`, `Pesticide_per_ha`
+  2. Log‑transform area → `log_Area`
+  3. Target‑encode crop → `Crop_target_enc` (log of mean yield per crop)
+  4. One‑hot encode Season → 5 dummy variables
+  5. Remove extreme yield outliers
+  6. Label‑encode State
+  7. Standardise numerical features (`StandardScaler`)
+  8. Train/validation/test split (70/15/15 stratified by State)
+
+---
+
+### ⚙️ Key Implementation Notes
+
+- **No traditional database** – all data and models are stored as files (CSV, `.npy`, `.pkl`, `.pt`).
+- **Geospatial lookup:** A KDTree index built over 1,137 GEE grid points enables sub‑millisecond retrieval of rainfall and soil pH from a map click (latitude/longitude).
+- **Model persistence:**
+  - Random Forest → `joblib`
+  - Neural networks → PyTorch `.pt`
+  - Encoders and scaler → `joblib`
+- **Deployment:** All artifacts are pre‑computed and loaded at FastAPI startup, enabling low‑latency predictions.
+- **Prediction flow:**
+  1. User clicks map → get lat/lon
+  2. Query KDTree → retrieve rainfall and pH
+  3. User provides crop, season, state, area, fertilizer, pesticide
+  4. Construct 13‑feature vector using the same transformations
+  5. Scale and encode → feed into three models
+  6. Return median + interval
+
+---
+
+### 🔧 Key Features Table Update
+
+In the main README's **Key Features** table, replace the XGBoost line with this corrected row:
+
+| Feature | Description |
+|---------|-------------|
+| 🤖 ML-Powered Yield Prediction | Random Forest (median) + Neural Networks (80% prediction interval) trained on 13‑feature vector (soil chemistry, rainfall, crop, season, state, farm inputs) |
+
+
 
 ## 📦 Dependencies
 
@@ -362,20 +437,14 @@ This project is licensed under the MIT License – see the LICENSE file for deta
 
 ## 👨‍💻 Contributors
 
-Tanisha Sharma (DevTanisha-max)  
-Sparsh Kapoor (SparshKapoor-CODER)
+<a href="https://github.com/SparshKapoor-CODER/AgriBuddy2.0/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=SparshKapoor-CODER/AgriBuddy2.0" />
+</a>
 
 ## 🙏 Acknowledgments
 
-XGBoost – ML framework for yield prediction  
-FastAPI – High-performance backend framework  
-Groq – AI-powered chatbot API  
-Leaflet.js – Interactive mapping library  
-ReportLab – PDF generation with multi-language support
+@syed-naqi-abbas and team for making the initial setup
 
-## 📞 Support
-
-For issues, questions, or suggestions, please open an issue on the GitHub repository.
 
 ## ⭐ Show Your Support
 
