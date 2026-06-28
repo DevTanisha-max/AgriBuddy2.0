@@ -110,9 +110,6 @@ AgriBuddy2.0/
 [![Node.js](https://img.shields.io/badge/Node.js-18%2B-339933?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org/)
 [![Git](https://img.shields.io/badge/Git-Download-F05032?style=for-the-badge&logo=git&logoColor=white)](https://git-scm.com/downloads)
 
-- pip (comes with Python)
-- npm (comes with Node.js)
-
 ### Backend Setup
 
 #### 1. Clone the Repository
