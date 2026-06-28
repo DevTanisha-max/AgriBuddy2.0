@@ -1,375 +1,350 @@
-# AgriBuddy 🌾
+🌾 AgriBuddy - Geospatial Digital Twin for Precision Agriculture
+A geospatial digital twin platform that combines machine learning, real-time soil data, and interactive mapping to help farmers make data-driven decisions for crop yield prediction and sustainable farming.
 
-**Geospatial Digital Twin for Precision Agriculture**
+https://img.shields.io/badge/Live_Demo-View_App-00C7B7?style=for-the-badge&logo=render
+https://img.shields.io/badge/GitHub-View_Code-181717?style=for-the-badge&logo=github
 
-AgriBuddy is an intelligent agricultural analytics platform that leverages geospatial data, machine learning, and modern cloud infrastructure to empower farmers and agricultural professionals with data-driven insights for crop yield prediction and soil management.
+📌 Overview
+AgriBuddy is an intelligent agricultural analytics platform that empowers farmers, agricultural professionals, and policymakers with data-driven insights. By integrating geospatial data, machine learning, and a user-friendly interface, the platform simplifies crop yield prediction, soil health monitoring, and farming advisory.
 
-![AgriBuddy Demo](frontend/demo/image.png)
+"Smart farming starts with smart data."
 
----
+🚀 Key Features
+Feature	Description
+🗺️ Interactive Geospatial Map	Click on the map to auto-capture GPS coordinates and reverse-geocode district/state
+🌱 Automated Soil Profile Lookup	Smart injection of N, P, K, pH values from internal district-level database
+🤖 ML-Powered Yield Prediction	XGBoost Regressor trained on 10-feature vector (soil chemistry, weather, crop, season)
+📊 Real-Time Dashboard	Visualize predicted yield, confidence metrics, and historical trends with Chart.js
+📄 Multi-Language Report Generation	Generate detailed crop reports in Hindi, English, and other Indian languages
+🤖 AI Chatbot Assistant	Groq-powered chatbot for farming advice, crop selection, and pest control
+📥 PDF Report Download	Download comprehensive reports in PDF format with Hindi script support
+☁️ Cloud-Native Architecture	Docker containerization + Kubernetes orchestration with auto-scaling
+🧠 Core Concept: Digital Twin for Farming
+AgriBuddy creates a digital twin of your farm by combining:
 
-## 🚀 Key Features
+Data Layer	Source
+Soil Chemistry	District-level database (N, P, K, pH)
+Weather Data	Rainfall, temperature, humidity
+Crop & Season	User-selected from 55+ crop varieties
+Farm Inputs	Fertilizer intensity, pesticide usage
+Geospatial Location	GPS coordinates from interactive map
+1 prediction = 10 features → XGBoost → Yield forecast (kg/hectare)
 
-- **Geospatial Interface**: Interactive Leaflet.js map for auto-capturing GPS coordinates with reverse geocoding for district/state identification
-- **Automated Data Injection**: Smart soil profile lookup system (N, P, K, pH) from internal district database—eliminating manual data entry
-- **ML-Powered Predictions**: XGBoost Regressor trained on 10-feature vector (soil chemistry, rainfall, crop, season) with custom string sanitization for categorical consistency
-- **Production-Ready Backend**: FastAPI with CORS support, validation, and error handling
-- **Cloud-Native Architecture**: Containerized with Docker and orchestrated via Kubernetes with:
-  - Self-healing pod management
-  - Load balancing via HPA (Horizontal Pod Autoscaler)
-  - Zero-downtime rolling updates
-- **Data Consistency Layer**: Custom preprocessing pipeline ensuring categorical parity between training and inference
+⚙️ System Workflow
+User clicks on map → GPS coordinates captured
 
----
+Reverse geocoding → District & State identified
 
-## 📊 Tech Stack
+Soil profile lookup → N, P, K, pH auto-populated
 
-### Backend
-- **Framework**: FastAPI
-- **ML/ML Ops**: XGBoost, scikit-learn, pandas, numpy
-- **Containerization**: Docker
-- **Orchestration**: Kubernetes
-- **Server**: Uvicorn
+User selects → Crop, Season, Fertilizer, Pesticide
 
-### Frontend
-- **Library**: React 19
-- **UI/Map**: Leaflet.js, React-Leaflet
-- **Charting**: Chart.js, react-chartjs-2
-- **Build Tool**: Vite
-- **HTTP Client**: Axios
-- **Linting**: ESLint
+ML Model predicts → Yield forecast with confidence
 
-### Data Pipeline
-- Automated soil profile injection
-- District-level soil chemistry database
-- State-wise statistical aggregation for smart defaults
+Dashboard updates → Visual charts & insights
 
----
+Generate Report → PDF download in preferred language
 
-## 📁 Project Structure
+Chatbot assistance → AI-powered farming advice
 
-```
-AgriBuddy/
+🛠️ Tech Stack
+Category	Technology
+Backend	Python, FastAPI, Uvicorn
+ML/MLOps	XGBoost, scikit-learn, pandas, numpy, joblib
+Frontend	React 19, Vite, Leaflet.js, Chart.js
+UI/Map	React-Leaflet, Axios
+PDF Generation	ReportLab, fpdf2 (with Devanagari font support)
+AI Chatbot	Groq API
+Containerization	Docker
+Orchestration	Kubernetes (HPA, rolling updates)
+Database	District-level soil chemistry lookup (CSV-based)
+
+
+📁 Project Structure
+AgriBuddy2.0/
 ├── backend/
-│   ├── main.py                      # FastAPI application entry point
-│   ├── soil_processing.py           # Soil data pipeline and injection
-│   ├── train_model.py               # XGBoost model training script
-│   ├── prepare_final_data.py        # Data preprocessing and feature engineering
-│   ├── requirements.txt             # Python dependencies
-│   ├── Dockerfile                   # Container image definition
-│   ├── .dockerignore               # Docker build context excludes
-│   ├── models/                     # Serialized ML artifacts
+│   ├── main.py                 # FastAPI application entry point
+│   ├── soil_processing.py      # Soil data pipeline & injection
+│   ├── train_model.py          # XGBoost model training script
+│   ├── prepare_final_data.py   # Data preprocessing & feature engineering
+│   ├── requirements.txt        # Python dependencies
+│   ├── Dockerfile              # Container image definition
+│   ├── models/                 # Serialized ML artifacts
 │   │   ├── yield_model.pkl
-│   │   ├── le_crop.pkl
+│   │   ├── le_crop.pkl         # 55+ crop varieties
 │   │   ├── le_state.pkl
 │   │   └── le_season.pkl
-│   └── k8s/                        # Kubernetes manifests
+│   ├── data/                   # Training & soil lookup data
+│   ├── static/                 # Static assets (fonts, images)
+│   └── k8s/                    # Kubernetes manifests
 │       ├── backend-deployment.yaml
 │       └── backend-service.yaml
 │
 └── frontend/
     ├── src/
-    │   ├── main.jsx                # React entry point
-    │   ├── App.jsx                 # Main App component
-    │   ├── App.css                 # Global styles
-    │   ├── index.css               # Base styles
     │   ├── components/
-    │   │   ├── AnalysisBoard.jsx   # Yield analysis display
+    │   │   ├── AnalysisBoard.jsx   # Yield analysis dashboard
     │   │   ├── FarmMap.jsx         # Interactive geospatial map
-    │   │   └── InputPanel.jsx      # Prediction form
+    │   │   ├── InputPanel.jsx      # Prediction form with 55+ crops
+    │   │   └── ChatBot.jsx         # AI-powered farming assistant
     │   ├── services/
-    │   │   └── api.js              # API client (axios)
-    │   └── assets/                 # Static assets
+    │   │   └── api.js              # Axios API client
+    │   ├── App.jsx                 # Main application
+    │   ├── index.css               # Global styling
+    │   └── main.jsx                # React entry point
     ├── public/                     # Static files
-    ├── package.json
-    ├── vite.config.js
-    ├── eslint.config.js
-    └── index.html
-```
+    ├── package.json                # Node.js dependencies
+    └── vite.config.js              # Vite build configuration
 
----
 
-## 🛠️ Installation & Setup
+🚀 Local Setup Guide
+Prerequisites
+Python 3.9+ – Download here
 
-### Prerequisites
-- Python 3.9+
-- Node.js 16+
-- Docker (optional, for containerization)
-- Kubernetes cluster (optional, for deployment)
+Node.js 18+ – Download here
 
-### Backend Setup
+Git – Download here
 
-1. **Navigate to backend directory**:
-   ```bash
-   cd backend
-   ```
+pip (comes with Python)
 
-2. **Create a virtual environment**:
-   ```bash
-   python -m venv venv
-   source venv/bin/activate  # On Windows: venv\Scripts\activate
-   ```
+npm (comes with Node.js)
 
-3. **Install dependencies**:
-   ```bash
-   pip install -r requirements.txt
-   ```
+Backend Setup
+1. Clone the Repository
+bash
+git clone https://github.com/DevTanisha-max/AgriBuddy2.0.git
+cd AgriBuddy2.0
+2. Navigate to Backend & Create Virtual Environment
+Windows:
 
-4. **Ensure model artifacts are in place**:
-   ```
-   backend/models/
-   ├── yield_model.pkl
-   ├── le_crop.pkl
-   ├── le_state.pkl
-   └── le_season.pkl
-   ```
+bash
+cd backend
+python -m venv venv
+venv\Scripts\activate
+macOS / Linux:
 
-5. **Run the FastAPI server**:
-   ```bash
-   uvicorn main:app --reload --host 0.0.0.0 --port 8000
-   ```
-   Server will be available at `http://localhost:8000`
-   API docs: `http://localhost:8000/docs`
+bash
+cd backend
+python3 -m venv venv
+source venv/bin/activate
+3. Install Dependencies
+bash
+pip install -r requirements.txt
+4. Set Up Environment Variables
+Create a .env file in the backend folder:
 
-### Frontend Setup
+Windows:
 
-1. **Navigate to frontend directory**:
-   ```bash
-   cd frontend
-   ```
+bash
+echo GROQ_API_KEY=your_groq_api_key_here > .env
+macOS/Linux:
 
-2. **Install dependencies**:
-   ```bash
-   npm install
-   ```
+bash
+echo "GROQ_API_KEY=your_groq_api_key_here" > .env
+Get your free API key from Groq Console
 
-3. **Start development server**:
-   ```bash
-   npm run dev
-   ```
-   Frontend will be available at `http://localhost:5173`
+5. Run the FastAPI Server
+bash
+uvicorn main:app --reload --host 0.0.0.0 --port 8000
+Server will be available at: http://localhost:8000
+API Documentation: http://localhost:8000/docs
 
----
+Frontend Setup
+1. Navigate to Frontend Directory
+bash
+cd frontend
+2. Install Dependencies
+bash
+npm install
+3. Start Development Server
+bash
+npm run dev
+Frontend will be available at: http://localhost:5173
 
-## 🐳 Docker Deployment
+🌍 Deployment
+Docker Deployment
+Build Backend Image:
 
-### Build Backend Docker Image
-
-```bash
+bash
 cd backend
 docker build -t agribuddy-backend:latest .
 docker run -p 8000:8000 agribuddy-backend:latest
-```
+Build Frontend Image:
 
-### Volume Mounts
-Ensure the following directories are mounted:
-- `/app/models/` - Contains serialized model artifacts
-
----
-
-## ☸️ Kubernetes Deployment
-
-1. **Build and push Docker image** (to your registry):
-   ```bash
-   docker build -t your-registry/agribuddy-backend:latest backend/
-   docker push your-registry/agribuddy-backend:latest
-   ```
-
-2. **Apply Kubernetes manifests**:
-   ```bash
-   kubectl apply -f backend/k8s/backend-deployment.yaml
-   kubectl apply -f backend/k8s/backend-service.yaml
-   ```
-
-3. **Verify deployment**:
-   ```bash
-   kubectl get deployments
-   kubectl get services
-   kubectl logs -l app=agribuddy-backend
-   ```
-
-### K8s Features Enabled
-- **Horizontal Pod Autoscaler**: Automatically scales based on CPU/memory metrics
-- **Rolling Updates**: Zero-downtime deployments with configurable strategy
-- **Self-Healing**: Pod restart on failure with liveness/readiness probes
-- **Service Discovery**: LoadBalancer/ClusterIP exposure for frontend communication
-
----
-
-## 📡 API Endpoints
-
-### `/get-soil-defaults`
-**POST** - Get soil parameters for a given district/state
-
-**Request**:
-```json
-{
-  "district": "Pune",
-  "state": "Maharashtra"
-}
-```
-
-**Response**:
-```json
-{
-  "n": 45.2,
-  "p": 32.1,
-  "k": 185.5,
-  "ph": 6.8,
-  "source": "district_name"
-}
-```
-
-### `/api/predict`
-**POST** - Predict crop yield based on soil and environmental parameters
-
-**Request**:
-```json
-{
-  "state": "Maharashtra",
-  "crop": "Rice",
-  "season": "Kharif",
-  "nitrogen": 45.2,
-  "phosphorus": 32.1,
-  "potassium": 185.5,
-  "ph": 6.8,
-  "rainfall": 750.5,
-  "temperature": 28.5,
-  "humidity": 65.0
-}
-```
-
-**Response**:
-```json
-{
-  "predicted_yield": 4250.75,
-  "confidence": 0.92,
-  "unit": "kg/hectare"
-}
-```
-
----
-
-## 🎯 Data Pipeline
-
-### Training Data Preparation
-1. **Data Collection**: Gather soil chemistry, weather, and crop yield records
-2. **Feature Engineering**: 10-feature vector construction
-3. **String Sanitization**: Categorical value standardization
-4. **Model Training**: XGBoost Regressor with hyperparameter tuning
-5. **Artifact Export**: Serialize model and label encoders
-
-### Inference Pipeline
-1. **Input Validation**: Pydantic models ensure type safety
-2. **Categorical Encoding**: Apply trained label encoders
-3. **Feature Scaling**: Normalize numerical features (if required)
-4. **Prediction**: XGBoost model inference
-5. **Post-Processing**: Format and validate output
-
----
-
-## 🗺️ Frontend Usage
-
-### Interactive Map (FarmMap Component)
-- Click on the map to capture GPS coordinates
-- Auto-reverse geocoding retrieves district and state
-- Auto-populated soil data via backend lookup
-
-### Prediction Form (InputPanel Component)
-- Input crop, season, and environmental parameters
-- Soil parameters pre-filled from district database
-- Submit for yield prediction
-
-### Analysis Dashboard (AnalysisBoard Component)
-- Visualize predictions with Chart.js
-- Display confidence metrics
-- Historical prediction trends
-
----
-
-## 🔄 Development Workflow
-
-### Running Locally (Full Stack)
-
-**Terminal 1 - Backend**:
-```bash
-cd backend
-source venv/bin/activate
-uvicorn main:app --reload
-```
-
-**Terminal 2 - Frontend**:
-```bash
+bash
 cd frontend
-npm run dev
-```
+docker build -t agribuddy-frontend:latest .
+docker run -p 5173:5173 agribuddy-frontend:latest
+Kubernetes Deployment
+bash
+kubectl apply -f backend/k8s/backend-deployment.yaml
+kubectl apply -f backend/k8s/backend-service.yaml
+kubectl get pods
+kubectl get services
+📡 API Endpoints
+Endpoint	Method	Description
+/get-soil-by-latlon	POST	Get soil parameters (N, P, K, pH) via GPS coordinates
+/predict	POST	Predict crop yield using 10-feature vector
+/generate-report	POST	Generate multi-language PDF report
+/chat	POST	AI-powered farming chatbot (Groq)
+/health	GET	Health check endpoint
+🗺️ Frontend Features
+Interactive Map (FarmMap)
+Click anywhere to select farm location
 
----
+Auto-reverse geocoding → District/State
 
-## 📊 Machine Learning Model
+Auto-populated soil data from backend
 
-**Algorithm**: XGBoost Regressor
+Prediction Form (InputPanel)
+55+ Crop Varieties – Rice, Wheat, Maize, Cotton, Sugarcane, Banana, and more
 
-**Input Features** (10-vector):
-1. Nitrogen (N) - mg/kg
-2. Phosphorus (P) - mg/kg
-3. Potassium (K) - mg/kg
-4. Soil pH - unitless
-5. Rainfall - mm
-6. Temperature - °C
-7. Humidity - %
-8. Crop (encoded)
-9. Season (encoded)
-10. State (encoded)
+Season Selection – Kharif, Rabi, Summer
 
-**Output**: Crop yield prediction (kg/hectare)
+Fertilizer & Pesticide sliders for input intensity
 
-**Training Data**: Historical agricultural records with validated soil and weather measurements
+Auto-filled soil parameters
 
----
+Analysis Dashboard (AnalysisBoard)
+Predicted yield (tons/hectare)
 
-## 🚀 Performance Optimizations
+Confidence metrics & accuracy
 
-- **Model Caching**: XGBoost model loaded at startup, reused across requests
-- **Database Indexing**: District-state lookups optimized for O(1) retrieval
-- **State-wise Aggregation**: Pre-calculated means reduce computation time
-- **CORS Enabled**: Efficient cross-origin requests from frontend
-- **Kubernetes HPA**: Auto-scales under load to maintain sub-second latency
+Estimated market value (MSP-based)
 
----
+Seasonal comparison charts
 
-## 🤝 Contributing
+Yield quality assessment
 
+Chatbot Assistant (ChatBot)
+AI-powered farming advice
+
+Crop selection guidance
+
+Pest control & fertilizer recommendations
+
+Weather impact analysis
+
+Report Generation
+Languages: Hindi, English, and other Indian languages
+
+Scripts: Native Script (Devanagari) & Roman
+
+PDF Download – Complete crop report with all parameters
+
+📊 Machine Learning Model
+Algorithm: XGBoost Regressor
+
+Input Features (10-vector):
+
+Nitrogen (N) – mg/kg
+
+Phosphorus (P) – mg/kg
+
+Potassium (K) – mg/kg
+
+Soil pH – unitless
+
+Rainfall – mm
+
+Temperature – °C
+
+Humidity – %
+
+Crop (encoded)
+
+Season (encoded)
+
+State (encoded)
+
+Output: Crop yield prediction (kg/hectare)
+
+Training Data: Historical agricultural records with validated soil and weather measurements across 55+ crop varieties
+
+📦 Dependencies
+Backend Requirements
+text
+fastapi==0.115.11
+uvicorn[standard]==0.34.0
+pydantic==2.10.6
+python-multipart==0.0.20
+scikit-learn==1.6.1
+torch==2.6.0
+numpy==2.2.3
+scipy==1.15.2
+joblib==1.4.2
+groq==0.16.0
+python-dotenv==1.0.1
+pandas==2.2.3
+matplotlib==3.10.0
+seaborn==0.13.2
+reportlab==4.2.5
+fpdf2==2.8.1
+weasyprint==64.1
+Frontend Dependencies
+text
+react@^18.2.0
+react-dom@^18.2.0
+react-leaflet@^4.2.1
+leaflet@^1.9.4
+chart.js@^4.4.0
+react-chartjs-2@^5.2.0
+axios@^1.6.0
+vite@^5.0.0
+🌍 Project Impact
+🌱 Agricultural Impact
+Data-Driven Decisions: Farmers get precise yield predictions
+
+Reduced Waste: Optimized fertilizer and pesticide usage
+
+Better Crop Selection: 55+ crop varieties with seasonal advice
+
+Soil Health Monitoring: Automated soil parameter tracking
+
+💰 Economic Impact
+Stakeholder	Benefit
+Farmers	Higher yields, lower input costs, better market prices
+Policymakers	Data-driven agricultural policies
+Agribusiness	Better supply chain planning
+Researchers	Access to agricultural data
+🤝 Contributing
 Contributions are welcome! Please follow these steps:
 
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit changes (`git commit -m 'Add amazing feature'`)
-4. Push to branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+Fork the repository
 
----
+Create a feature branch: git checkout -b feature/YourFeature
 
-## 📄 License
+Commit changes: git commit -m 'Add some feature'
 
-This project is licensed under the MIT License—see the LICENSE file for details.
+Push to branch: git push origin feature/YourFeature
 
----
+Open a Pull Request
 
-## 🎓 Key Achievements
+📄 License
+This project is licensed under the MIT License – see the LICENSE file for details.
 
-✅ **Geospatial Automation**: Eliminated manual coordinate entry via reverse geocoding  
-✅ **Data Injection**: Automated soil profile lookup from district database  
-✅ **ML Accuracy**: XGBoost model trained on 10-feature vector with categorical consistency  
-✅ **Cloud-Ready**: Full Kubernetes support with auto-scaling and zero-downtime updates  
-✅ **Production Grade**: CORS, validation, error handling, and structured logging  
+👨‍💻 Contributors
+Tanisha Sharma (DevTanisha-max) 
 
----
+Sparsh Kapoor (SparshKapoor-CODER) 
 
-## 📞 Support
+🙏 Acknowledgments
+XGBoost – ML framework for yield prediction
 
+FastAPI – High-performance backend framework
+
+Groq – AI-powered chatbot API
+
+Leaflet.js – Interactive mapping library
+
+ReportLab – PDF generation with multi-language support
+
+📞 Support
 For issues, questions, or suggestions, please open an issue on the GitHub repository.
 
----
+⭐ Show Your Support
+If this project helps you or inspires you, please consider giving it a star on GitHub ⭐.
 
-**Built with ❤️ for precision agriculture**
+Built with ❤️ for precision agriculture | MIT License
+
+    
