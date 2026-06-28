@@ -443,7 +443,7 @@ This project is licensed under the MIT License – see the LICENSE file for deta
 
 ## 🙏 Acknowledgments
 
-@syed-naqi-abbas and team for making the initial setup
+[@syed-naqi-abbas](https://github.com/syed-naqi-abbas) and team for making the initial setup
 
 
 ## ⭐ Show Your Support
